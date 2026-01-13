@@ -19,6 +19,11 @@ const auth = (roles?: Role) => {
             const decode = jwt.verify(token as string, 'very secret')
             // console.log(decode)
             req.user=decode as JwtPayload //use decode info globally. whole application
+            
+            if(roles && !roles.includes(req.user.role)){
+                return res.send("Forbidden")
+            }
+            
             if(!decode) return res.send("Unauthorized")
             next()
         }

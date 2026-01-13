@@ -2,11 +2,12 @@ import { RequestHandler } from "express";
 import { prisma } from "../../lib/prisma";
 
 const createUsageLog: RequestHandler=async(req,res)=>{
+    console.log(req.user)
    try{
      const payload = req.body
 
     const log = await prisma.usageLog.create({
-        data:{...payload}
+        data:{...payload, userId: req.user.id}
     })
      res.send({message:"Usage log Added", data:log})
    }
